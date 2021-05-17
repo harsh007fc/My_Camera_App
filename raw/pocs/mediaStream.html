@@ -7,8 +7,8 @@
     <title>Camera App</title>
 </head>
 <body>
-    <video controls autoplay></video>
-    <audio controls autoplay></audio>
+    <!-- <video controls autoplay></video>
+    <audio controls autoplay></audio> -->
     <button id="record-video">Record</button>
     <script>
 
@@ -37,6 +37,7 @@
         mediaRecorder.addEventListener("stop",function(){
             //mime type
             let blob = new Blob(buffer,{type:"video/mp4"});
+            // fnctn to convert blob to url
             let url = window.URL.createObjectURL(blob);
             // download btn
             let a = document.createElement("a");
