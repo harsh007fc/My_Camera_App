@@ -1,4 +1,17 @@
-
+let videoRecorder = document.querySelector("#record-video");
+let captureBtn = document.querySelector("#capture");
+let recordState = false;
+videoRecorder.addEventListener("click",function(){
+    if(recordState == false){
+        mediaRecorder.start();
+        videoRecorder.innerHTML = "Recording...";
+        recordState = true;
+    }else{
+        mediaRecorder.stop();
+        videoRecorder.innerHTML = "Recording...";
+        recordState = false;
+    }
+})
 // let audioElem = document.querySelector("audio");
 let constraints = {
     video:true,
@@ -40,16 +53,18 @@ mediaRecorder.addEventListener("stop",function(){
     console.log(err);
 });
 
-let videoRecorder = document.querySelector("#record-video");
-let recordState = false;
-videoRecorder.addEventListener("click",function(){
-    if(recordState == false){
-        mediaRecorder.start();
-        videoRecorder.innerHTML = "Recording...";
-        recordState = true;
-    }else{
-        mediaRecorder.stop();
-        videoRecorder.innerHTML = "Recording...";
-        recordState = false;
-    }
+captureBtn.addEventListener("click",function(){
+    let canvas = document.createElement("canvas");
+    canvas.width = videoElem.videoWidth;
+    canvas.height = videoElem.videoHeight;
+    let tool = canvas.getContext("2d");
+    // draw a frame on canvas
+    tool.drawImage(videoElem,0,0);
+    let link = canvas.toDataURL();
+    let anchor = document.createElement("a");
+    anchor.href = link;
+    anchor.download = "file.png";
+    anchor.click();
+    anchor.remove();
+    canvas.remove();
 })

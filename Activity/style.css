@@ -21,7 +21,10 @@ body{
 .record-btn:hover{
     opacity:0.7;
 }
-.record-btn{
+.capture-btn:hover{
+    opacity:0.7;
+}
+.record-btn,.capture-btn{
     position: fixed;
     height: 5rem;
     width: 5rem;
@@ -30,4 +33,7 @@ body{
     z-index: 2;
     right:4vw;
     top:40%;
+}
+.capture-btn{
+    top:55vh;
 }
