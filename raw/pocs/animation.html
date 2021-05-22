@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMATIONS</title>
+    <style>
+        .box{
+            height: 6rem;
+            width: 6rem;
+            margin: 6rem;
+        }
+        .box-1{
+            background-color: lightcoral;
+            /* name-of-anim  time-in-sec for-time-period */
+            animation: scaleUp 2s;
+            /* final state by animation fill (backwards/forwards) */
+            animation-fill-mode: forwards;
+        }
+        .box-2{
+            background-color: lightgreen;
+            animation: moveRightAndBack 2s 5;
+            
+        }
+        .box-3{
+            background-color: lightseagreen;
+            /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+            animation:fadeAway 0.5s infinite;
+        }
+        @keyframes scaleUp {
+            0%{
+                transform: scale(1);
+            }
+            25%{
+                transform: scale(1.5);
+            }
+            50%{
+                transform: scale(1);
+            }
+            75%{
+                transform: scale(1.5);
+            }
+            100%{
+                transform: scale(2);
+            }
+        }
+        @keyframes moveRightAndBack{
+            0%{
+                transform:translateX(0px);
+            }
+            50%{
+                transform:translateX(580px);
+            }
+            100%{
+                transform:translateX(0px);
+            }
+        }
+        @keyframes fadeAway {
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="box box-1"></div>
+    <div class="box box-2"></div>
+    <div class="box box-3"></div>
+    <script>
+
+    </script>
+</body>
+</html>
