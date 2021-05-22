@@ -21,24 +21,71 @@
         board.height = window.innerHeight;
         board.width = window.innerWidth;
 
-        window.addEventListener("resize",function(){
-            board.height = window.innerHeight;
-            board.width = window.innerWidth;
-            draw();
-        })
+        // window.addEventListener("resize",function(){
+        //     board.height = window.innerHeight;
+        //     board.width = window.innerWidth;
+        //     draw();
+        // })
 
 
         let tool = board.getContext("2d");
-        function draw(){
-            tool.fillStyle = "#333"
-            tool.fillRect(0,0,board.width,board.height);
-            tool.fillStyle = "grey"
-            tool.fillRect(0,0,board.width / 2 ,board.height / 2);
-            tool.strokeStyle = "red";
-            tool.lineWidth = 5;
-            tool.strokeRect(0,0,board.width / 2 ,board.height / 2);
-        }
+        // draw();
+        // function draw(){
+        //     tool.fillStyle = "#333"
+        //     tool.fillRect(0,0,board.width,board.height);
+        //     tool.fillStyle = "grey"
+        //     tool.fillRect(0,0,board.width / 2 ,board.height / 2);
+        //     tool.strokeStyle = "red";
+        //     tool.lineWidth = 5;
+        //     tool.strokeRect(0,0,board.width / 2 ,board.height / 2);
+        // }
         
+
+
+        ////////to draw line manually on canvas
+        tool.strokeStyle = "green";
+        tool.lineWidth = 5;
+        // tool.beginPath();
+        // tool.moveTo(10,10);
+        // tool.lineTo(150,150);
+        // tool.lineTo(350,350);
+        // tool.moveTo(650,650);
+        // tool.lineTo(150,650);
+        // tool.stroke();
+
+
+
+        let isMouseDown = false;
+        document.body.addEventListener("mousedown",function(e){
+            // console.log(e);
+            let x = e.clientX;
+            let y = e.clientY;
+            tool.beginPath();
+            tool.moveTo(x,y);
+            isMouseDown = true;
+
+        });
+        document.body.addEventListener("mousemove",function(e){
+            // console.log(e);
+            let x = e.clientX;
+            let y = e.clientY;
+            if(isMouseDown == true){
+                tool.lineTo(x,y);
+                tool.stroke();
+            }
+
+        });
+        document.body.addEventListener("mouseup",function(e){
+            // console.log(e);
+            let x = e.clientX;
+            let y = e.clientY;
+            // tool.beginPath();
+            tool.lineTo(x,y);
+            tool.stroke();
+            isMouseDown = false;
+
+        });
+
     </script>
 </body>
 </html>
