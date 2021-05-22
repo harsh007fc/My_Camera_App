@@ -6,16 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas 1</title>
     <style>
-
+        *{
+            box-sizing: border-box;
+        }
         body{
             margin: 0;
+        }
+
+        .colors{
+            height: 5rem;
+            width: 60vw;
+            margin: 0 auto;
+            border: 3px solid;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .color{
+            height:70%;
+            width: 30%;
+        }
+        .red{
+            /* height:70%; */
+            /* width: 26%; */
+            background-color: red;
+        }
+        .green{
+            background-color: green;
+        }
+        .blue{
+            background-color: blue;
         }
 
     </style>
 </head>
 <body>
+    <div class="colors">
+        <div class="color red"></div>
+        <div class="color blue"></div>
+        <div class="color green"></div>
+    </div>
+    
     <canvas id="board" ></canvas>
+    
     <script>
+        let parent = document.querySelector(".colors")
         document.querySelector("#board");
 
         board.height = window.innerHeight;
@@ -26,6 +61,8 @@
         //     board.width = window.innerWidth;
         //     draw();
         // })
+
+        
 
 
         let tool = board.getContext("2d");
@@ -43,8 +80,8 @@
 
 
         ////////to draw line manually on canvas
-        tool.strokeStyle = "green";
-        tool.lineWidth = 5;
+        // tool.strokeStyle = "green";
+        // tool.lineWidth = 5;
         // tool.beginPath();
         // tool.moveTo(10,10);
         // tool.lineTo(150,150);
@@ -55,11 +92,40 @@
 
 
 
+
+        window.addEventListener("resize",function(){
+            board.height = window.innerHeight;
+            board.width = window.innerWidth;
+            draw();
+        })
+        draw();
+        function draw(){
+
+            tool.lineWidth = 5;
+        let red = document.querySelector(".red");
+        red.addEventListener("click",function(){
+            tool.strokeStyle = "red";
+        });
+
+        let blue = document.querySelector(".blue");
+        blue.addEventListener("click",function(){
+            tool.strokeStyle = "blue";
+        });
+
+        let green = document.querySelector(".green");
+        green.addEventListener("click",function(){
+            tool.strokeStyle = "green";
+        });
+
+
+
+
         let isMouseDown = false;
         document.body.addEventListener("mousedown",function(e){
             // console.log(e);
             let x = e.clientX;
             let y = e.clientY;
+            y =  getCoordinates(y);
             tool.beginPath();
             tool.moveTo(x,y);
             isMouseDown = true;
@@ -69,6 +135,7 @@
             // console.log(e);
             let x = e.clientX;
             let y = e.clientY;
+            y =  getCoordinates(y);
             if(isMouseDown == true){
                 tool.lineTo(x,y);
                 tool.stroke();
@@ -79,12 +146,23 @@
             // console.log(e);
             let x = e.clientX;
             let y = e.clientY;
+            y =  getCoordinates(y);
             // tool.beginPath();
             tool.lineTo(x,y);
             tool.stroke();
             isMouseDown = false;
 
         });
+
+// to fix problem de to upper color bar
+        function getCoordinates(initialY){
+            let obj = parent.getBoundingClientRect();
+            // console.log(obj);
+            return initialY - obj.height;
+        }
+        }
+
+       
 
     </script>
 </body>
