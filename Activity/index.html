@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -16,12 +17,24 @@
         <div style="background-color: #5a835b31" class="filter"></div>
         <div class="filter"></div>
     </div>
+    <div class="ui-filter ui-filter-active"></div>
     <div class="timing" id="timing">00:00:00</div>
     <div class="video-container">
         <!-- autoplay must b given to see video  -->
         <video class="video" id="video-elem" autoplay></video>
         
     </div>
+    <div class="zoom">
+        <div id="plus-container" class="icon-container">
+            <i class="fas fa-plus icon"></i>
+
+        </div>
+        <div id="minus-container" class="icon-container">
+            <i class="fas fa-minus icon"></i>
+
+        </div>
+    </div>
+
     <div class="record-container parent-btn">
         <button class="record-btn" id="record-video"></button>
 

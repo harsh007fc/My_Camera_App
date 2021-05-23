@@ -2,9 +2,10 @@ let videoRecorder = document.querySelector("#record-video");
 let captureBtn = document.querySelector("#capture");
 let timingElem = document.querySelector("#timing");
 let allFilters = document.querySelectorAll(".filter");
+let uiFilter = document.querySelector(".ui-filter");
 let recordState = false;
 let clearObj;
-let currentFilter = "";
+let filterColor = "";
 videoRecorder.addEventListener("click",function(){
     if (!mediaRecorder) {
         alert("First allow permissions");
@@ -74,6 +75,10 @@ captureBtn.addEventListener("click",function(){
     captureBtn.classList.add("capture-animation");
     // draw a frame on canvas
     tool.drawImage(videoElem,0,0);
+    // add filter color to clicked image
+    tool.fillStyle = filterColor;
+    // translucent
+    tool.fillRect(0,0,canvas.width,canvas.height);
     let link = canvas.toDataURL();
     let anchor = document.createElement("a");
     anchor.href = link;
@@ -108,7 +113,18 @@ function stopCounting(){
 
 for(let i = 0; i < allFilters.length; i++){
     allFilters[i].addEventListener("click",function(){
+        //add filter to ui
+        let color = allFilters[i].style.backgroundColor;
+        if(color){
+            uiFilter.classList.add("ui-filter-active");
+            uiFilter.style.backgroundColor = color;
+            filterColor = color;
+        }else{
+            uiFilter.classList.remove("ui-filter-active");
+            uiFilter.style.backgroundColor = "";
+            filterColor = "";
 
+        }
     })
 }
 
