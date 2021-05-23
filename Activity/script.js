@@ -1,18 +1,27 @@
 let videoRecorder = document.querySelector("#record-video");
 let captureBtn = document.querySelector("#capture");
+let timingElem = document.querySelector("#timing");
+let allFilters = document.querySelectorAll(".filter");
 let recordState = false;
+let clearObj;
+let currentFilter = "";
 videoRecorder.addEventListener("click",function(){
+    if (!mediaRecorder) {
+        alert("First allow permissions");
+        return;
+    }
     if(recordState == false){
         mediaRecorder.start();
         // videoRecorder.innerHTML = "Recording...";
         videoRecorder.classList.add("record-animation");
+        startCounting();
         
         recordState = true;
     }else{
         mediaRecorder.stop();
         // videoRecorder.innerHTML = "Record";
         videoRecorder.classList.remove("record-animation");
-
+        stopCounting();
         recordState = false;
     }
 })
@@ -75,4 +84,33 @@ captureBtn.addEventListener("click",function(){
     setTimeout(function(){
         captureBtn.classList.remove("capture-animation");
     },1000)
-})
+});
+
+function startCounting(){
+    timingElem.classList.add("timing-active");
+    let timeCount = 0;
+    clearObj = setInterval(function(){
+        let seconds = (timeCount % 60) < 10 ? `0${(timeCount % 60)}`:(`${(timeCount % 60)}`);
+        let minutes = (timeCount / 60) < 10 ? `0${Number.parseInt(timeCount / 60)}`:(`${Number.parseInt(timeCount / 60)}`);
+        let hours = (timeCount / 3600) < 10 ? `0${Number.parseInt(timeCount / 3600)}`:(`${Number.parseInt(timeCount / 3600)}`);
+        timingElem.innerText = `${hours}:${minutes}:${seconds}`;
+        timeCount++;
+    },1000)
+}
+
+function stopCounting(){
+    timingElem.classList.remove("timing-active");
+    timingElem.innerText = "00:00:00";
+    clearInterval(clearObj);
+}
+
+// applying filter
+
+for(let i = 0; i < allFilters.length; i++){
+    allFilters[i].addEventListener("click",function(){
+
+    })
+}
+
+
+
