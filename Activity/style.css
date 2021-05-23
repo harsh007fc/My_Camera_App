@@ -25,15 +25,39 @@ body{
     opacity:0.7;
 }
 .record-btn,.capture-btn{
-    position: fixed;
-    height: 5rem;
-    width: 5rem;
+    
+    height: 4.5rem;
+    width: 4.5rem;
     top: 1rem;
     border-radius: 50%;
     z-index: 2;
-    right:4vw;
-    top:40%;
+    border: none;
+    outline: none;
+    
+}
+.record-btn{
+    background-color: red;
 }
 .capture-btn{
     top:55vh;
+}
+
+.parent-btn{
+    height: 6.5rem;
+    width: 6.5rem;
+    border: 0.5rem solid white;
+    position: fixed;
+    top: 30vh;
+    z-index: 2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 3vw;
+}
+
+.capture-container{
+    top: 50vh;
+
+
 }
