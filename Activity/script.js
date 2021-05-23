@@ -4,11 +4,15 @@ let recordState = false;
 videoRecorder.addEventListener("click",function(){
     if(recordState == false){
         mediaRecorder.start();
-        videoRecorder.innerHTML = "Recording...";
+        // videoRecorder.innerHTML = "Recording...";
+        videoRecorder.classList.add("record-animation");
+        
         recordState = true;
     }else{
         mediaRecorder.stop();
-        videoRecorder.innerHTML = "Recording...";
+        // videoRecorder.innerHTML = "Record";
+        videoRecorder.classList.remove("record-animation");
+
         recordState = false;
     }
 })
@@ -58,6 +62,7 @@ captureBtn.addEventListener("click",function(){
     canvas.width = videoElem.videoWidth;
     canvas.height = videoElem.videoHeight;
     let tool = canvas.getContext("2d");
+    captureBtn.classList.add("capture-animation");
     // draw a frame on canvas
     tool.drawImage(videoElem,0,0);
     let link = canvas.toDataURL();
@@ -67,4 +72,7 @@ captureBtn.addEventListener("click",function(){
     anchor.click();
     anchor.remove();
     canvas.remove();
+    setTimeout(function(){
+        captureBtn.classList.remove("capture-animation");
+    },1000)
 })
