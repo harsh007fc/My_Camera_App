@@ -143,14 +143,14 @@ for(let i = 0; i < allFilters.length; i++){
 // Feature of zoom in zoom out
 
 zoomInElem.addEventListener("click",function(){
-    zoomLevel += 0.2;
     if(zoomLevel < 3){
+        zoomLevel += 0.2;
         videoElem.style.transform = `scale(${zoomLevel})`;
     }
 })
 zoomOutElem.addEventListener("click",function(){
-    zoomLevel -= 0.2;
     if(zoomLevel > 1){
+        zoomLevel -= 0.2;
         videoElem.style.transform = `scale(${zoomLevel})`;
     }
 })
