@@ -3,9 +3,12 @@ let captureBtn = document.querySelector("#capture");
 let timingElem = document.querySelector("#timing");
 let allFilters = document.querySelectorAll(".filter");
 let uiFilter = document.querySelector(".ui-filter");
+let zoomInElem = document.querySelector("#plus-container");
+let zoomOutElem = document.querySelector("#minus-container");
 let recordState = false;
 let clearObj;
 let filterColor = "";
+let zoomLevel = 1;
 videoRecorder.addEventListener("click",function(){
     if (!mediaRecorder) {
         alert("First allow permissions");
@@ -74,11 +77,20 @@ captureBtn.addEventListener("click",function(){
     let tool = canvas.getContext("2d");
     captureBtn.classList.add("capture-animation");
     // draw a frame on canvas
-    tool.drawImage(videoElem,0,0);
+    // tool.translate(canvas.width / 2,canvas.width / 2);
+    // tool.scale(zoomLevel,zoomLevel);
+    tool.scale(zoomLevel,zoomLevel);
+    let x = (canvas.width / zoomLevel - canvas.width) / 2;
+    let y = (canvas.height / zoomLevel - canvas.height) / 2;
+    tool.drawImage(videoElem,x,y);
     // add filter color to clicked image
-    tool.fillStyle = filterColor;
+   
     // translucent
-    tool.fillRect(0,0,canvas.width,canvas.height);
+    if(filterColor){
+        tool.fillStyle = filterColor;
+        tool.fillRect(0,0,canvas.width,canvas.height);
+    }
+ 
     let link = canvas.toDataURL();
     let anchor = document.createElement("a");
     anchor.href = link;
@@ -128,5 +140,17 @@ for(let i = 0; i < allFilters.length; i++){
     })
 }
 
+// Feature of zoom in zoom out
 
-
+zoomInElem.addEventListener("click",function(){
+    zoomLevel += 0.2;
+    if(zoomLevel < 3){
+        videoElem.style.transform = `scale(${zoomLevel})`;
+    }
+})
+zoomOutElem.addEventListener("click",function(){
+    zoomLevel -= 0.2;
+    if(zoomLevel > 1){
+        videoElem.style.transform = `scale(${zoomLevel})`;
+    }
+})
