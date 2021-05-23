@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexDB</title>
+</head>
+<body>
+    <input type="text" id="txnDB">
+    <input type="number" id="version">
+    <button id="createDB">Create</button>
+    <button id="addNote">Add Note</button>
+    <script>
+        let db;
+        let createBtn = document.querySelector("#createDB");
+        let addBtn = document.querySelector("#addNote");
+        // db created
+        createBtn.addEventListener("click",function(){
+            let dbn = document.querySelector("#txnDB").value;
+            let v = document.querySelector("#version").value;
+            let request = indexedDB.open(dbn,v);
+            request.addEventListener("success",function(){
+                db = request.result;
+            })
+            request.addEventListener("error",function(){
+                console.log(error);
+            })
+            request.addEventListener("upgradeneeded",function(e){
+                // db k liye ki kaisa hoga
+                db.createObjectStore("notes",{keyPath:"nId"});
+            })
+        })
+
+        createBtn.addEventListener("click",function(){
+            if(db){
+                let note = {
+                    nId = "1",
+                    txt = "I am a Note"
+                }
+                // create
+                // transaction("store",modeOftransation)
+                let txn = db.transaction("notes","readwrite");
+                // store get
+                let notesStore = txn.createObjectStore("notes");
+                notesStore.add(note);
+            }
+        })
+    </script>
+</body>
+</html>
