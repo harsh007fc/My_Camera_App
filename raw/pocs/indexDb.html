@@ -11,39 +11,68 @@
     <input type="number" id="version">
     <button id="createDB">Create</button>
     <button id="addNote">Add Note</button>
+    <button id="view">Data</button>
     <script>
         let db;
+        let count = 1;
         let createBtn = document.querySelector("#createDB");
         let addBtn = document.querySelector("#addNote");
+        let viewBtn = document.querySelector("#view");
         // db created
         createBtn.addEventListener("click",function(){
             let dbn = document.querySelector("#txnDB").value;
             let v = document.querySelector("#version").value;
-            let request = indexedDB.open(dbn,v);
-            request.addEventListener("success",function(){
-                db = request.result;
+            let request = window.indexedDB.open(dbn,v);
+            request.addEventListener("success",function(e){
+                db = e.target.result;
+                console.log("success");
+                // db = request.result;
             })
-            request.addEventListener("error",function(){
-                console.log(error);
+            request.addEventListener("error",function(e){
+                console.log(e);
+                console.log("error");
             })
             request.addEventListener("upgradeneeded",function(e){
                 // db k liye ki kaisa hoga
-                db.createObjectStore("notes",{keyPath:"nId"});
+                db = e.target.result;
+                console.log("Upgrade Needed");
+                if(db){
+                    db.createObjectStore("notes",{keyPath:"nId"});
+
+                }
             })
         })
 
-        createBtn.addEventListener("click",function(){
+        addBtn.addEventListener("click",function(){
             if(db){
                 let note = {
-                    nId = "1",
-                    txt = "I am a Note"
+                    nId : count++,
+                    txt : "I am a note" + count
                 }
                 // create
                 // transaction("store",modeOftransation)
                 let txn = db.transaction("notes","readwrite");
                 // store get
-                let notesStore = txn.createObjectStore("notes");
+                let notesStore = txn.objectStore("notes");
                 notesStore.add(note);
+            }
+        })
+
+        viewBtn.addEventListener("click",function(){
+            if(db){
+                let txn = db.transaction("notes","readonly");
+                let notesStore = txn.objectStore("notes");
+                // async work
+                let pendingAns = notesStore.openCursor();
+                pendingAns.addEventListener("success",function(e){
+                    let cursor = pendingAns.result;
+                    if(cursor){
+                        console.log(cursor.value);
+                        cursor.continue();
+                    }
+                })
+            }else{
+                alert("DB is still Loading");
             }
         })
     </script>
