@@ -58,11 +58,12 @@ mediaRecorder.addEventListener("stop",function(){
     let blob = new Blob(buffer,{type:"video/mp4"});
     // fnctn to convert blob to url
     let url = window.URL.createObjectURL(blob);
+    addMediaToDB(url,"video");
     // download btn
-    let a = document.createElement("a");
-    a.download = "file.mp4";
-    a.href = url;
-    a.click();
+    // let a = document.createElement("a");
+    // a.download = "file.mp4";
+    // a.href = url;
+    // a.click();
     buffer = []; //to prevernt redownload of prev video
 })
 
@@ -92,12 +93,14 @@ captureBtn.addEventListener("click",function(){
     }
  
     let link = canvas.toDataURL();
-    let anchor = document.createElement("a");
-    anchor.href = link;
-    anchor.download = "file.png";
-    anchor.click();
-    anchor.remove();
-    canvas.remove();
+    addMediaToDB(link,"img");
+    // download
+    // let anchor = document.createElement("a");
+    // anchor.href = link;
+    // anchor.download = "file.png";
+    // anchor.click();
+    // anchor.remove();
+    // canvas.remove();
     setTimeout(function(){
         captureBtn.classList.remove("capture-animation");
     },1000)
