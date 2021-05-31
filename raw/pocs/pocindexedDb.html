@@ -59,7 +59,14 @@
           function viewNotes(){
               let tx = db.transaction('notes','readonly');
               let notes = tx.objectStore('notes');
-              
+              let request = notes.openCursor();
+              request.onsuccess = function(e){
+                  let cursor = request.result;
+                  if(cursor){
+                      console.log(cursor.value);
+                      cursor.continue();
+                  }
+              }
           }
       </script>
     
