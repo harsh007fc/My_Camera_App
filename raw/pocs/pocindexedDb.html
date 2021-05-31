@@ -10,9 +10,12 @@
       DB<input type="text" value="notes" id="txtDB"></input>
       Version<input type="text" value="1" id="txtVersion">
       <button id="btnCreateDB">Create DB</button>
+      <button class="add" >Add Notes</button>
 
       <script>
           let btnCreateDb = document.querySelector("#btnCreateDB");
+          let db;
+          let addBtn = document.querySelector('.add');
           btnCreateDb.addEventListener("click",function(){
               createDB();
           });
@@ -24,13 +27,39 @@
               let req = indexedDB.open(dbName,dbVersion);
               req.onupgradeneeded = function(e){
                   alert("upgrade was called");
+                  db = req.result;
+                  console.log(db);
+                  db.createObjectStore("notes",{keyPath:'nid'});
+
               }
               req.onsuccess = function(e){
                   alert("sucess was called");
+                  db = req.result;
+                  console.log(db);
+                  viewNotes();
               }
               req.onerror = function(e){
                   alert("error was called"+ " "+ e.target.error);
               }
+          }
+          addBtn.addEventListener("click",function(){
+              addNote();
+          });
+          function addNote(){
+              let note = {
+                  nid:"abcdef",
+                  txt:'my name is anthony',
+              };
+              let tx = db.transaction('notes','readwrite');
+              let noteStore = tx.objectStore('notes');
+              noteStore.add(note);
+
+          }
+
+          function viewNotes(){
+              let tx = db.transaction('notes','readonly');
+              let notes = tx.objectStore('notes');
+              
           }
       </script>
     
