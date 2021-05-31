@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      DB<input type="text" value="notes" id="txtDB"></input>
+      Version<input type="text" value="1" id="txtVersion">
+      <button id="btnCreateDB">Create DB</button>
+
+      <script>
+          let btnCreateDb = document.querySelector("#btnCreateDB");
+          btnCreateDb.addEventListener("click",function(){
+              createDB();
+          });
+
+          function createDB(){
+              let dbName = document.querySelector('#txtDB').value;
+              let dbVersion = document.querySelector('#txtVersion').value;
+
+              let req = indexedDB.open(dbName,dbVersion);
+              req.onupgradeneeded = function(e){
+                  alert("upgrade was called");
+              }
+              req.onsuccess = function(e){
+                  alert("sucess was called");
+              }
+              req.onerror = function(e){
+                  alert("error was called"+ " "+ e.target.error);
+              }
+          }
+      </script>
+    
+</body>
+</html>
