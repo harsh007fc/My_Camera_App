@@ -57,8 +57,8 @@ mediaRecorder.addEventListener("stop",function(){
     //mime type
     let blob = new Blob(buffer,{type:"video/mp4"});
     // fnctn to convert blob to url
-    let url = window.URL.createObjectURL(blob);
-    addMediaToDB(url,"video");
+    // let url = window.URL.createObjectURL(blob);
+    addMediaToGallery(blob,"video");
     // download btn
     // let a = document.createElement("a");
     // a.download = "file.mp4";
@@ -93,7 +93,7 @@ captureBtn.addEventListener("click",function(){
     }
  
     let link = canvas.toDataURL();
-    addMediaToDB(link,"img");
+    addMediaToGallery(link,"img");
     // download
     // let anchor = document.createElement("a");
     // anchor.href = link;

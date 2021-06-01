@@ -1,26 +1,26 @@
-let request = indexedDB.open("camera", 1);
+let request = indexedDB.open("Camera", 1);
 let db;
 request.onsuccess = function (e) {
     //  if exist then will get db from here 
     db = request.result;
 }
-request.onerror = function (err) {
-    console.log(err)
+request.onerror = function (e) {
+    console.log('err');
 }
-request.onupgradeneeded = function () {
+request.onupgradeneeded = function (e) {
     // 1st  create 
     db = request.result;
-    db.createObjectStore("img", { keyPath: "mid" });
-    db.createObjectStore("video", { keyPath: "mid" });
+    db.createObjectStore('gallery',{ keyPath: "mId" });
+    // db.createObjectStore("video", { keyPath: "mid" });
 }
-function addMediaToDB(data, table) {
+function addMediaToGallery(data, type) {
     if (db) {
         // you need to get transaction
-        let tx = db.transaction(table, "readwrite");
+        let tx = db.transaction('gallery', 'readwrite');
         // get table refer
-        let store = tx.objectStore(table);
+        let gallery = tx.objectStore('gallery');
         // add
-        store.add({ mid: Date.now(), media: data });
+        gallery.add({ mId: Date.now(),type, media: data});
 
     } else {
         alert("db is loading")
