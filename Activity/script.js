@@ -1,159 +1,123 @@
-let videoRecorder = document.querySelector("#record-video");
-let captureBtn = document.querySelector("#capture");
-let timingElem = document.querySelector("#timing");
-let allFilters = document.querySelectorAll(".filter");
-let uiFilter = document.querySelector(".ui-filter");
-let zoomInElem = document.querySelector("#plus-container");
-let zoomOutElem = document.querySelector("#minus-container");
-let recordState = false;
-let clearObj;
-let filterColor = "";
-let zoomLevel = 1;
-videoRecorder.addEventListener("click",function(){
-    if (!mediaRecorder) {
-        alert("First allow permissions");
-        return;
-    }
-    if(recordState == false){
-        mediaRecorder.start();
-        // videoRecorder.innerHTML = "Recording...";
-        videoRecorder.classList.add("record-animation");
-        startCounting();
-        
-        recordState = true;
-    }else{
-        mediaRecorder.stop();
-        // videoRecorder.innerHTML = "Record";
-        videoRecorder.classList.remove("record-animation");
-        stopCounting();
-        recordState = false;
-    }
-})
-// let audioElem = document.querySelector("audio");
-let constraints = {
-    video:true,
-    audio:true,
-}
+let constraints = { video: true, audio: true };
+
+let videoPlayer = document.querySelector("video");
+let vidRecordBtn = document.querySelector("#record-video");
+
 let mediaRecorder;
-let buffer = [];  //to store stream of video
-let videoElem = document.querySelector("#video-elem")
+let chunks = [];
+let recordState = false;
 
+let filter = "";
 
-//stream yahaan local hai means apne hi device se aa rhi hai]]
-navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
-    // console.log(mediaStream);
-    // alert("received media")
+let maxZoom = 3;
+let minZoom = 1;
+let currZoom = 1;
 
-    videoElem.srcObject = mediaStream;
-    // audioElem.srcObject = mediaStream;
+let zoomInBtn = document.getElementById("in");
+let zoomOutBtn = document.getElementById("out");
 
-    mediaRecorder = new MediaRecorder(mediaStream); //rec abhi start nhi hui hia
-
-    // if(recordState)
-    mediaRecorder.addEventListener("dataavailable",function(e){
-    buffer.push(e.data);
-})
-mediaRecorder.addEventListener("stop",function(){
-    //mime type
-    let blob = new Blob(buffer,{type:"video/mp4"});
-    // fnctn to convert blob to url
-    // let url = window.URL.createObjectURL(blob);
-    addMediaToGallery(blob,"video");
-    // download btn
-    // let a = document.createElement("a");
-    // a.download = "file.mp4";
-    // a.href = url;
-    // a.click();
-    buffer = []; //to prevernt redownload of prev video
-})
-
-}).catch(function(err){
-    console.log(err);
+zoomInBtn.addEventListener("click", function () {
+  let vidScale = Number(
+    videoPlayer.style.transform.split("(")[1].split(")")[0]
+  );
+  if (vidScale < 3) {
+    currZoom = vidScale + 0.1;
+    videoPlayer.style.transform = `scale(${currZoom})`;
+  }
+});
+zoomOutBtn.addEventListener("click", function () {
+  let vidScale = Number(
+    videoPlayer.style.transform.split("(")[1].split(")")[0]
+  );
+  if (vidScale > 1) {
+    currZoom = vidScale - 0.1;
+    videoPlayer.style.transform = `scale(${currZoom})`;
+  }
 });
 
-captureBtn.addEventListener("click",function(){
-    let canvas = document.createElement("canvas");
-    canvas.width = videoElem.videoWidth;
-    canvas.height = videoElem.videoHeight;
-    let tool = canvas.getContext("2d");
-    captureBtn.classList.add("capture-animation");
-    // draw a frame on canvas
-    // tool.translate(canvas.width / 2,canvas.width / 2);
-    // tool.scale(zoomLevel,zoomLevel);
-    tool.scale(zoomLevel,zoomLevel);
-    let x = (canvas.width / zoomLevel - canvas.width) / 2;
-    let y = (canvas.height / zoomLevel - canvas.height) / 2;
-    tool.drawImage(videoElem,x,y);
-    // add filter color to clicked image
-   
-    // translucent
-    if(filterColor){
-        tool.fillStyle = filterColor;
-        tool.fillRect(0,0,canvas.width,canvas.height);
-    }
- 
-    let link = canvas.toDataURL();
-    addMediaToGallery(link,"img");
-    // download
-    // let anchor = document.createElement("a");
-    // anchor.href = link;
-    // anchor.download = "file.png";
-    // anchor.click();
-    // anchor.remove();
-    // canvas.remove();
-    setTimeout(function(){
-        captureBtn.classList.remove("capture-animation");
-    },1000)
+let allFilters = document.querySelectorAll(".filter");
+
+for (let i = 0; i < allFilters.length; i++) {
+  allFilters[i].addEventListener("click", function (e) {
+    filter = e.currentTarget.style.backgroundColor;
+    removeFilter();
+    addFilterToScreen(filter);
+  });
+}
+
+let captureBtn = document.querySelector("#click-picture");
+captureBtn.addEventListener("click", function () {
+  let innerDiv = captureBtn.querySelector("#click-div");
+  innerDiv.classList.add("capture-animation");
+  capture(filter);
+  setTimeout(function () {
+    innerDiv.classList.remove("capture-animation");
+  }, 1000);
 });
 
-function startCounting(){
-    timingElem.classList.add("timing-active");
-    let timeCount = 0;
-    clearObj = setInterval(function(){
-        let seconds = (timeCount % 60) < 10 ? `0${(timeCount % 60)}`:(`${(timeCount % 60)}`);
-        let minutes = (timeCount / 60) < 10 ? `0${Number.parseInt(timeCount / 60)}`:(`${Number.parseInt(timeCount / 60)}`);
-        let hours = (timeCount / 3600) < 10 ? `0${Number.parseInt(timeCount / 3600)}`:(`${Number.parseInt(timeCount / 3600)}`);
-        timingElem.innerText = `${hours}:${minutes}:${seconds}`;
-        timeCount++;
-    },1000)
+vidRecordBtn.addEventListener("click", function () {
+  removeFilter();
+  let innerDiv = vidRecordBtn.querySelector("#record-div");
+  if (!recordState) {
+    recordState = true;
+    innerDiv.classList.add("recording-animation");
+    currZoom = 1;
+    videoPlayer.style.transform = `scale(${currZoom})`;
+    mediaRecorder.start();
+  } else {
+    recordState = false;
+    innerDiv.classList.remove("recording-animation");
+    mediaRecorder.stop();
+  }
+});
+
+navigator.mediaDevices.getUserMedia(constraints).then(function (mediaStream) {
+  videoPlayer.srcObject = mediaStream;
+
+  mediaRecorder = new MediaRecorder(mediaStream);
+
+  mediaRecorder.ondataavailable = function (e) {
+    chunks.push(e.data);
+  };
+
+  mediaRecorder.onstop = function () {
+    let blob = new Blob(chunks, { type: "video/mp4" });
+    chunks = [];
+    // C4.2
+    addMediaToGallery(blob, "video");
+  };
+});
+
+function capture(filter) {
+  let c = document.createElement("canvas");
+  c.width = videoPlayer.videoWidth;
+  c.height = videoPlayer.videoHeight;
+  let ctx = c.getContext("2d");
+
+  ctx.translate(c.width / 2, c.height / 2);
+  ctx.scale(currZoom, currZoom);
+  ctx.translate(-c.width / 2, -c.height / 2);
+  ctx.drawImage(videoPlayer, 0, 0);
+  if (filter !== "") {
+    ctx.fillStyle = filter;
+    ctx.fillRect(0, 0, c.width, c.height);
+  }
+
+  addMediaToGallery(c.toDataURL(), "img");
 }
 
-function stopCounting(){
-    timingElem.classList.remove("timing-active");
-    timingElem.innerText = "00:00:00";
-    clearInterval(clearObj);
+function addFilterToScreen(filterColor) {
+  let filter = document.createElement("div");
+  filter.classList.add("on-screen-filter");
+  filter.style.height = "100vh";
+  filter.style.width = "100vw";
+  filter.style.position = "fixed";
+  filter.style.top = "0px";
+  filter.style.background = `${filterColor}`;
+  document.querySelector("body").appendChild(filter);
 }
 
-// applying filter
-
-for(let i = 0; i < allFilters.length; i++){
-    allFilters[i].addEventListener("click",function(){
-        //add filter to ui
-        let color = allFilters[i].style.backgroundColor;
-        if(color){
-            uiFilter.classList.add("ui-filter-active");
-            uiFilter.style.backgroundColor = color;
-            filterColor = color;
-        }else{
-            uiFilter.classList.remove("ui-filter-active");
-            uiFilter.style.backgroundColor = "";
-            filterColor = "";
-
-        }
-    })
+function removeFilter() {
+  let OnScreenfilter = document.querySelector(".on-screen-filter");
+  if (OnScreenfilter) OnScreenfilter.remove();
 }
-
-// Feature of zoom in zoom out
-
-zoomInElem.addEventListener("click",function(){
-    if(zoomLevel < 3){
-        zoomLevel += 0.2;
-        videoElem.style.transform = `scale(${zoomLevel})`;
-    }
-})
-zoomOutElem.addEventListener("click",function(){
-    if(zoomLevel > 1){
-        zoomLevel -= 0.2;
-        videoElem.style.transform = `scale(${zoomLevel})`;
-    }
-})

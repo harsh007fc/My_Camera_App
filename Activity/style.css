@@ -1,178 +1,270 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-    margin: 0;
-    /* padding: 0; */
-    overflow:hidden;
-    
+body {
+  margin: 0;
 }
 
-.video-container{
-    height: 100vh;
-    width: 100vw;
-    background-color: black;
-    
+#record-video {
+  position: fixed;
+  right: 6rem;
+  top: 36vh;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  border: 8px solid white;
+  background: black;
 }
 
-.video{
-    height:100%;
-    width: 100%;
-    
+#click-picture {
+  position: fixed;
+  right: 6rem;
+  top: 50vh;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  border: 8px solid white;
+  background: black;
 }
 
-.record-btn:hover{
-    opacity:0.7;
-}
-.capture-btn:hover{
-    opacity:0.7;
-}
-.record-btn,.capture-btn{
-    
-    height: 4.5rem;
-    width: 4.5rem;
-    top: 1rem;
-    border-radius: 50%;
-    z-index: 5;
-    border: none;
-    outline: none;
-    
-}
-.record-btn{
-    background-color: red;
-}
-.capture-btn{
-    top:55vh;
+.video-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: black;
 }
 
-.parent-btn{
-    height: 6.5rem;
-    width: 6.5rem;
-    border: 0.5rem solid white;
-    position: fixed;
-    top: 30vh;
-    z-index: 5;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 3vw;
+video {
+  height: 100%;
+  width: 100%;
 }
 
-.capture-container{
-    top: 50vh;
-
-
-}
-.record-animation{
-    animation: scaleUp 1s ease-out infinite;
-}
-.capture-animation{
-    animation: scaleUp 1s ease-in;
-}
-@keyframes scaleUp {
-    0%{
-        transform: scale(1);
-    }
-    25%{
-        transform: scale(1.125);
-    }
-    50%{
-        transform: scale(1.16);
-    }
-    75%{
-        transform: scale(1.125);
-    }
+#record-div,
+#click-div {
+  height: 70%;
+  width: 80%;
+  margin: auto;
+  border-radius: 50%;
 }
 
-
-.filter-container{
-    height:50vh;
-    width:5rem;
-    position: fixed;
-    top: 15vh;
-    left: 5vw;
-    z-index: 5;
-    
+#record-div {
+  background: red;
 }
 
-.filter{
-    background-image: url(https://picsum.photos/seed/picsum/200/300);
-    height: 20%;
-    background-size: cover;
-    /* colour bg with image */
-    background-blend-mode: color-burn;
+#click-div {
+  background: white;
 }
 
-.timing{
-    color: white;
-    position: fixed;
-    bottom: 15vh;
-    left: 5vw;
-    font-size: 1.5rem;
-    font-family:sans-serif ;
-    font-weight: 600;
-    display: none;
-    box-shadow:tomato ;
+.recording-animation {
+  animation: shrinkInOut 0.8s infinite;
 }
 
-.timing-active{
-    display: block;
+.capture-animation {
+  animation: shrinkInOut 1s;
 }
 
-.ui-filter{
-    height: 100vh;
-    width: 100vw;
-    /* background-color:rgba(211, 211, 211, 0.082); */
-    position: fixed;
-    z-index: 4;
-    display: none;
-    /* opacity: 0.6; */
+@keyframes shrinkInOut {
+  0% {
+    transform: scale(1);
+  }
 
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
-.ui-filter-active{
-    display: block;
+.filter-container {
+  border: 1px solid white;
+  top: 12vh;
+  height: 60vh;
+  width: 5.5vw;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  left: 5.3vw;
 }
 
-
-.zoom{
-    height: 7rem;
-    width: 3rem;
-    background-color: #444;
-    position: fixed;
-    z-index: 6;
-    right: 5vw;
-    top: 9vh;
+.filter {
+  border: 1px solid white;
+  height: 20%;
+  background: url(https://images.unsplash.com/photo-1591526038358-0e3d334fb8c0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100);
+  background-blend-mode: color-burn;
+  background-size: cover;
 }
 
-.icon-container{
-    color: white;
-    height: 50%;
-    border-bottom:2px solid black;
-    text-align: center;
-    padding-top: 1rem;
+#record-video,
+#click-picture,
+.filter-container {
+  z-index: 3;
 }
 
-.icon{
-    font-size:180%;
+.zoom {
+  z-index: 3;
+  top: 12vh;
+  height: 15vh;
+  width: 4vw;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  right: 5.3vw;
 }
 
-.gallery{
-    position: fixed;
-    z-index: 6;
-    bottom: 2vh;
-    right: 2vw;
-    display: block;
-    height: 5rem;
+.zoom button {
+  color: white;
+  background-color: #222;
+  border: none;
+  outline: none;
+  height: 50%;
+  font-size: 3.5rem;
+}
+
+/* C5.2 */
+#gallery-button {
+  position: fixed;
+  height: 3rem;
+  z-index: 2;
+  width: 3rem;
+  bottom: 10vh;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  right: 5.3vw;
+  background-color: #222;
+}
+
+/* C6.2  */
+.gallery-delete-button,
+.gallery-download-button {
+  border: none;
+  height: 10%;
+  display: block;
+  color: white;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+/* C6.3  */
+.gallery-img-container img,
+.gallery-vid-container video {
+  height: 80%;
+  display: block;
+  width: 100%;
+}
+
+/* C6.4  */
+.gallery-img-container,
+.gallery-vid-container {
+  width: 25rem;
+  background: white;
+  height: 25rem;
+  padding: 2rem;
+  margin: 2rem;
+}
+
+/* C6.6  */
+.gallery-back {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* C6.7 */
+.gallery-delete-button {
+  background: #d91d1d;
+}
+
+.gallery-download-button {
+  background: #291e1e;
+}
+
+/* C7  */
+@media (max-width: 1024px) {
+  .filter-container {
+    width: 12.5vw;
+  }
+  .zoom {
+    width: 4rem;
+  }
+  #record-video,
+  #click-picture {
+    top: unset;
+    right: unset;
+    bottom: 8rem;
+  }
+
+  #record-video {
+    left: 25rem;
+  }
+  #click-picture {
+    left: 35rem;
+  }
+
+  #gallery-button {
     width: 5rem;
-    text-decoration: none;
-    background-color: #444;
-    border-radius: 50%;
-    color: white;
-    font-size:120% ;
-    padding-top: 7px;
-    text-align: center;
+    height: 5rem;
+  }
+}
 
+@media (max-width: 768px) {
+  #record-video {
+    left: 15rem;
+  }
+  #click-picture {
+    left: 25rem;
+  }
+  #record-video,
+  #click-picture {
+    bottom: 6rem;
+  }
+}
+@media (max-width: 600px) {
+  .filter-container {
+    height: 10vh;
+    width: 85vw;
+    flex-direction: row;
+    left: 2vw;
+  }
+  .filter {
+    height: 100%;
+    width: calc(100% / 6);
+  }
+  #record-video,
+  #click-picture {
+    height: 4rem;
+    width: 4rem;
+    top: unset;
+    right: unset;
+  }
+  #click-picture {
+    left: 10rem;
+    bottom: 9vh;
+    right: 12rem;
+  }
+  #record-video {
+    left: 4rem;
+    bottom: 9vh;
+
+  }
+
+  #gallery-button {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .zoom {
+    right: 0vw;
+    width: 12vw;
+  }
 }
