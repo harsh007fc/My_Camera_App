@@ -83,7 +83,6 @@ navigator.mediaDevices.getUserMedia(constraints).then(function (mediaStream) {
   mediaRecorder.onstop = function () {
     let blob = new Blob(chunks, { type: "video/mp4" });
     chunks = [];
-    // C4.2
     addMediaToGallery(blob, "video");
   };
 });

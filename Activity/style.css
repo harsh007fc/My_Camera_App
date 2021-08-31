@@ -123,7 +123,7 @@ video {
   font-size: 3.5rem;
 }
 
-/* C5.2 */
+
 #gallery-button {
   position: fixed;
   height: 3rem;
@@ -137,7 +137,7 @@ video {
   background-color: #222;
 }
 
-/* C6.2  */
+
 .gallery-delete-button,
 .gallery-download-button {
   border: none;
@@ -148,7 +148,7 @@ video {
   width: 100%;
 }
 
-/* C6.3  */
+
 .gallery-img-container img,
 .gallery-vid-container video {
   height: 80%;
@@ -156,7 +156,7 @@ video {
   width: 100%;
 }
 
-/* C6.4  */
+
 .gallery-img-container,
 .gallery-vid-container {
   width: 25rem;
@@ -166,7 +166,7 @@ video {
   margin: 2rem;
 }
 
-/* C6.6  */
+
 .gallery-back {
   position: fixed;
   right: 20px;
@@ -180,7 +180,7 @@ video {
   font-size: 1.5rem;
 }
 
-/* C6.7 */
+
 .gallery-delete-button {
   background: #d91d1d;
 }
@@ -189,7 +189,7 @@ video {
   background: #291e1e;
 }
 
-/* C7  */
+
 @media (max-width: 1024px) {
   .filter-container {
     width: 12.5vw;
